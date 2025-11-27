@@ -1,0 +1,65 @@
+'use client'
+import React from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import Card from '@/components/Card'
+
+const search = () => {
+
+  const searchParam = useSearchParams()
+  const [search, setsearch] = useState(searchParam.get("q"))
+  console.log(searchParam.get("q"))
+  const [moviefound, setmoviefound] = useState(true)
+  const [searchMovies, setsearchMovies] = useState(null)
+
+
+
+  const searchMovie = async () => {
+    console.log(search)
+    let r = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/search`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ search })
+    })
+    let res = await r.json();
+    console.log(res)
+
+    if (res.success) {
+      setsearchMovies(res.result)
+      setmoviefound(true)
+    }
+    else {
+      setmoviefound(false)
+      console.log(res.success)
+    }
+  }
+
+
+  useEffect(() => {
+    setsearch(searchParam.get("q"))
+  }, [searchParam])
+  useEffect(() => {
+    searchMovie();
+  }, [search])
+
+
+  return (
+    <div className="lg:container lg:mx-auto bg-[#111111] min-h-screen text-white lg:px-10">
+      <div className="flex flex-col justify-center ">
+        <h1 className="font-bold text-3xl text-center lg:my-16 my-3 mx-2">Search Results for: <span className='text-blue-400'>{search}</span></h1>
+
+        <div className="h-[1px] bg-[#b0b0b0] w-full opacity-25"></div>
+
+
+        {moviefound ? (<Card searchMovies={searchMovies}/>) :
+          (<div className=' flex flex-col'>
+            <h1 className="font-bold text-3xl text-center lg:my-16 my-3 mx-2">Nothing Found</h1>
+            <div className="h-[1px] bg-[#b0b0b0] w-full opacity-25"></div>
+            <p className='text-2xl '>Sorry, but nothing matched your search terms. Please try again with some different keywords.</p>
+          </div>
+          )}
+      </div>
+    </div>
+  )
+}
+
+export default search
