@@ -49,6 +49,7 @@ export async function POST(request) {
         { message: "Movie not found" },
         { status: 404 });
     }
+    console.log(result)
 
     return NextResponse.json(
       result,
