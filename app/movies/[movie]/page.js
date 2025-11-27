@@ -135,7 +135,7 @@ export default function VideoAdPlayer({ params }) {
         movieurl ? (
           <div className="moviePlayer ">
           <iframe className='lg:w-[640px] lg:h-[360px] w-[300px] h-[200px]'
-            src={`https:\\${movieurl.MovieUrl}`}
+            src={movieurl.MovieUrl}
             width="640"
             height="360"
             allow="autoplay"
