@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from 'react';
 
 import { redirect } from 'next/navigation';
+import Loader from '@/components/Loader';
 
 
 export default function VideoAdPlayer({ params }) {
@@ -29,8 +30,6 @@ export default function VideoAdPlayer({ params }) {
       body: JSON.stringify({ movieName })
     })
     let res = await r.json();
-    console.log(res)
-    console.log(res.MovieThumbnail)
 
     if (res && res.Movie) {
       setmoviesData(res)
@@ -70,8 +69,6 @@ export default function VideoAdPlayer({ params }) {
     })
     let res = await r.json();
     setmovieurl(res)
-
-    console.log(res.MovieUrl)
 
     setmovieshow(true)
   };
@@ -213,8 +210,7 @@ export default function VideoAdPlayer({ params }) {
         </div>
       </div>) :
         (<div className="flex justify-center items-center h-screen">
-          <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-20 w-20 mb-4 animate-spin border-t-blue-500"></div>
-          <p className="text-white text-lg">Loading...</p>
+          <Loader />
         </div>
 
         )}

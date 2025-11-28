@@ -10,14 +10,12 @@ export async function GET() {
     const collection = db.collection("movies");       // movies collection
 
     const movies = await collection.find({}).toArray();
-    console.log(movies)
 
     const sanitizedMovies = movies.map(({ MovieUrl, MovieId, _id, ...rest }) => rest);
 
     return NextResponse.json(sanitizedMovies, { status: 200 });
 
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
@@ -49,7 +47,6 @@ export async function POST(request) {
         { message: "Movie not found" },
         { status: 404 });
     }
-    console.log(result)
 
     return NextResponse.json(
       result,
