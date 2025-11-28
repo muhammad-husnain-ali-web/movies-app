@@ -29,7 +29,7 @@ export async function POST(request) {
     }
     return NextResponse.json(
         { MovieUrl: result.MovieUrl },
-        {status: 400}
+        {status: 200}
       )
     }
     catch (error) {
